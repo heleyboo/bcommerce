@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,10 +28,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "category")
 public class Category {
+	@NotEmpty
+	@NotBlank
 	@Id
 	@Column(name = "code", nullable = false, unique = true)
 	private String code;
 
+	@NotEmpty
+	@NotBlank
 	@Column(name = "name", nullable = false)
 	private String name;
 
@@ -58,4 +64,13 @@ public class Category {
 
 	@Column(name = "description")
 	private String description;
+	
+	@Column(name = "meta_tag_title")
+	private String metaTagTitle;
+	
+	@Column(name = "meta_tag_description")
+	private String metaTagDescription;
+	
+	@Column(name = "meta_tag_keyword")
+	private String metaTagKeywords;
 }

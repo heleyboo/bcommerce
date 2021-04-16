@@ -14,7 +14,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 			<div class="container-fluid">
 				<div class="row mb-2">
 					<div class="col-sm-6">
-						<h1>Validation</h1>
+						<h1>Categories</h1>
 					</div>
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
@@ -34,45 +34,110 @@ scratch. This page gets rid of all links and provides the needed markup only.
 					<!-- left column -->
 					<div class="col-md-12">
 						<!-- jquery validation -->
-						<div class="card card-primary">
-							<div class="card-header">
-								<h3 class="card-title">
-									New Category</small>
-								</h3>
-							</div>
-							<!-- /.card-header -->
-							<!-- form start -->
-							<form autocomplete="off" action="#" th:action="@{/administrator/category/create}"
-                  th:object="${category}" method="post" class="form-horizontal"
-                  role="form">
+						<form autocomplete="off" action="#"
+							th:action="@{/administrator/category/create}"
+							th:object="${categoryRequest}" method="post"
+							class="form-horizontal" role="form">
+							<div class="card card-default">
+								<div class="card-header">
+									<h3 class="card-title">Add Category</h3>
+									<div class="btn-group float-right">
+										<button type="submit" class="btn btn-info">
+											<i class="fas fa-save"></i> Save
+										</button>
+										<a th:href="@{/administrator/category}" class="btn btn-success"><i
+											class="fas fa-angle-left"></i> Back</a>
+									</div>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+
 								<div class="card-body">
-									<div class="form-group">
-										<label th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
-                               class="validation-message"></label>
-										<input
-											type="text" th:field="*{code}" class="form-control"
-											id="code" placeholder="Enter code">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<select th:field="*{parent}" class="form-control">
+													<th:block th:each="parent: ${categories}">
+														<option th:value="${parent.code}" th:text="${parent.name}"></option>
+													</th:block>
+												</select>
+											</div>
+											<div class="form-group">
+												<input type="text" th:field="*{code}" class="form-control"
+													id="code" placeholder="Enter code" /> <span
+													th:if="${#fields.hasErrors('code')}" th:errors="*{code}"
+													id="code-error" class="error error-field"></span>
+											</div>
+											<div class="form-group">
+												<input type="text" th:field="*{name}" class="form-control"
+													id="name" placeholder="Enter name"> <span
+													th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+													id="code-error" class="error error-field"></span>
+											</div>
+											<div class="form-group">
+												<textarea type="text" th:field="*{description}"
+													class="form-control" id="description"
+													placeholder="Enter description"></textarea>
+												<span th:if="${#fields.hasErrors('description')}"
+													th:errors="*{description}" id="code-error"
+													class="error error-field"></span>
+											</div>
+											<div class="form-group">
+												<input type="text" th:field="*{metaTagTitle}"
+													class="form-control" id="metaTagTitle"
+													placeholder="Enter meta tag title"> <span
+													th:if="${#fields.hasErrors('metaTagTitle')}"
+													th:errors="*{metaTagTitle}" id="code-error"
+													class="error error-field"></span>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<textarea type="text" th:field="*{metaTagDescription}"
+													class="form-control" id="metaTagDescription"
+													placeholder="Enter meta tag description"></textarea>
+												<span th:if="${#fields.hasErrors('metaTagDescription')}"
+													th:errors="*{metaTagDescription}" id="code-error"
+													class="error error-field"></span>
+											</div>
+											<div class="form-group">
+												<textarea type="text" th:field="*{metaTagKeywords}"
+													class="form-control" id="metaTagKeywords"
+													placeholder="Enter meta tag keywords"></textarea>
+												<span th:if="${#fields.hasErrors('metaTagKeywords')}"
+													th:errors="*{metaTagKeywords}" id="code-error"
+													class="error error-field"></span>
+											</div>
+											<div class="form-group">
+												<input type="checkbox" checked="true" id="isVisible"
+													th:field="*{isVisible}"> <label for="isVisible">Is
+													Visible?</label>
+											</div>
+											<div class="form-group">
+												<input type="checkbox" checked="true" id="isEnable"
+													th:field="*{isEnable}"> <label for="isEnable">Is
+													Enable?</label>
+											</div>
+										</div>
 									</div>
-									<div class="form-group">
-										<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-                               class="validation-message"></label>
-										<input
-											type="text" th:field="*{name}" class="form-control"
-											id="name" placeholder="Enter name">
-									</div>
+
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
-									<button type="submit" class="btn btn-primary">Submit</button>
+									<div class="btn-group float-right">
+										<button type="submit" class="btn btn-info">
+											<i class="fas fa-save"></i> Save
+										</button>
+										<a th:href="@{/administrator/category}" class="btn btn-success"><i
+											class="fas fa-angle-left"></i> Back</a>
+									</div>
 								</div>
-							</form>
-						</div>
-						<!-- /.card -->
+
+							</div>
+							<!-- /.card -->
+						</form>
 					</div>
 					<!--/.col (left) -->
-					<!-- right column -->
-					<div class="col-md-6"></div>
-					<!--/.col (right) -->
 				</div>
 				<!-- /.row -->
 			</div>

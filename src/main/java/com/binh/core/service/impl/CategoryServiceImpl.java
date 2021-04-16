@@ -28,6 +28,9 @@ public class CategoryServiceImpl implements CategoryService {
 		newCategory.setIsEnable(categoryReq.getIsEnable());
 		newCategory.setIsVisible(categoryReq.getIsVisible());
 		newCategory.setDescription(categoryReq.getDescription());
+		newCategory.setMetaTagTitle(categoryReq.getMetaTagTitle());
+		newCategory.setMetaTagDescription(categoryReq.getMetaTagDescription());
+		newCategory.setMetaTagKeywords(categoryReq.getMetaTagKeywords());
 
 		if (ObjectUtils.isEmpty(categoryReq.getSlug())) {
 			newCategory.setSlug(SlugUtil.toSlug(categoryReq.getName()));
@@ -53,8 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return repo.findAll();
 	}
 
 }
