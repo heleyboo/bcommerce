@@ -36,6 +36,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests().antMatchers("/").permitAll().
 		antMatchers("/login").permitAll()
+		.antMatchers("/api/**").permitAll()
 				.antMatchers("/registration").permitAll()
 				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
 				.authenticated().and().csrf().disable()

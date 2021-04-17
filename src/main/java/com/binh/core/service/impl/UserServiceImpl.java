@@ -2,19 +2,25 @@ package com.binh.core.service.impl;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.binh.core.entity.Category;
 import com.binh.core.entity.Role;
 import com.binh.core.entity.User;
+import com.binh.core.repository.CategoryRepository;
 import com.binh.core.repository.RoleRepository;
 import com.binh.core.repository.UserRepository;
 import com.binh.core.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+	@Autowired
+	private UserRepository repo;
+	
 	@Autowired
 	private UserRepository userRepository;
 
@@ -38,5 +44,9 @@ public class UserServiceImpl implements UserService {
 		Role userRole = roleRepository.findByRole("ADMIN");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
 		return userRepository.save(user);
+	}
+	@Override
+	public List<User> getAll() {
+		return repo.findAll();
 	}
 }
