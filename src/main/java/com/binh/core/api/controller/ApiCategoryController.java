@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.binh.core.entity.Category;
 import com.binh.core.service.CategoryService;
 
+import javassist.NotFoundException;
+
 @RestController
 @RequestMapping("/api/v1/categories")
 public class ApiCategoryController {
@@ -26,7 +28,7 @@ public class ApiCategoryController {
 	}
 	
 	@GetMapping("/test/{code}")
-	public Category getOne(@PathVariable("code") String code) {
+	public Category getOne(@PathVariable("code") String code) throws NotFoundException {
 		return service.getCategoryByCode(code);
 	}
 }

@@ -58,7 +58,7 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/{code}")
-	public ModelAndView editCategory(@PathVariable String code, Model model) {
+	public ModelAndView editCategory(@PathVariable String code, Model model) throws NotFoundException {
 		ModelAndView mav = new ModelAndView("admin/category/list");
 		Category category = service.getCategoryByCode(code);
 		model.addAttribute("category", category);

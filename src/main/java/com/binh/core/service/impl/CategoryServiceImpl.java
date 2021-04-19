@@ -52,9 +52,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategoryByCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category getCategoryByCode(String code) throws NotFoundException {
+		return repo.findById(code).orElseThrow(() -> new NotFoundException("Category notfound"));
 	}
 
 	@Override

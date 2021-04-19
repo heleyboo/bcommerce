@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,8 @@ import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
 import com.binh.core.service.MotelRoomService;
 
+import javassist.NotFoundException;
+
 @RestController
 @RequestMapping("/api/v1/rooms")
 public class MotelRoomController {
@@ -23,9 +26,9 @@ public class MotelRoomController {
 	private MotelRoomService motelroomservice;
 
 	@PostMapping
-	public MotelRoom createRoom(@Valid @RequestBody MotelRoomDTO room) {
-		
-		return motelroomservice.save(room);
+	public MotelRoom createRoom(@Valid @RequestBody MotelRoomDTO room, KeycloakAuthenticationToken authentication)
+			throws NotFoundException {
+		return motelroomservice.save(room, authentication);
 	}
 
 	@GetMapping

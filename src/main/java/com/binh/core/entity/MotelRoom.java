@@ -53,9 +53,8 @@ public class MotelRoom {
 	@Column(name ="images")
 	private String images;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    private User user;
+	@Column(name ="user_name", nullable = false)
+	private String userName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "code", nullable = true)

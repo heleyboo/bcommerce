@@ -23,8 +23,9 @@ public interface CategoryService {
 	 * 
 	 * @param code
 	 * @return
+	 * @throws NotFoundException 
 	 */
-	public Category getCategoryByCode(String code);
+	public Category getCategoryByCode(String code) throws NotFoundException;
 
 	/**
 	 * Get all category
