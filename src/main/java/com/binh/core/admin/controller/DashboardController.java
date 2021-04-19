@@ -21,15 +21,6 @@ public class DashboardController {
 	@GetMapping("/dashboard")
 	public ModelAndView dashboard(Model model) {
 		ModelAndView mav = new ModelAndView("admin/home");
-		// Lấy dữ liệu
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findUserByUserName(auth.getName());
-		
-		mav.addObject("userName", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName()
-				+ " (" + user.getEmail() + ")");
-		
-		model.addAttribute("name", "Welcome " + user.getUserName() + "/" + user.getName() + " " + user.getLastName()
-				+ " (" + user.getEmail() + ")");
 		return mav;
 	}
 }

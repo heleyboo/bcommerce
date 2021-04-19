@@ -1,6 +1,7 @@
 package com.binh.core.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.binh.core.dto.request.CategoryRequest;
 import com.binh.core.entity.Category;
@@ -30,4 +31,6 @@ public interface CategoryService {
 	 * @return
 	 */
 	public List<Category> getAll();
+	
+	public Set<Category> findChildrenByCode(String code);
 }

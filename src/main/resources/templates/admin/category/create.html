@@ -57,6 +57,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										<div class="col-md-6">
 											<div class="form-group">
 												<select th:field="*{parent}" class="form-control">
+														<option value="">Chọn mục cha</option>
 													<th:block th:each="parent: ${categories}">
 														<option th:value="${parent.code}" th:text="${parent.name}"></option>
 													</th:block>

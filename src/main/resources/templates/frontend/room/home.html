@@ -8,34 +8,29 @@
 		<div class="row">
 			<div class="col-md-12">
 				<!-- jquery validation -->
-				<div class="card card-primary">
+				<div class="card card-success">
 					<div class="card-header">
-						<h3 class="card-title">
-							Quick Example <small>jQuery Validation</small>
-						</h3>
+						<h3 class="card-title">Dang tin</h3>
 					</div>
 					<!-- /.card-header -->
 					<!-- form start -->
 					<form id="quickForm">
 						<div class="card-body">
 							<div class="form-group">
-								<label for="exampleInputEmail1">Email address</label> <input
-									type="email" name="email" class="form-control"
-									id="exampleInputEmail1" placeholder="Enter email">
+								<label for="category">Chọn danh mục</label> <select
+									name="category" id="category" class="form-control">
+									<th:block th:each="category: ${categories}">
+										<option th:value="${category.code}" th:text="${category.name}"></option>
+									</th:block>
+								</select>
 							</div>
 							<div class="form-group">
-								<label for="exampleInputPassword1">Password</label> <input
-									type="password" name="password" class="form-control"
-									id="exampleInputPassword1" placeholder="Password">
-							</div>
-							<div class="form-group mb-0">
-								<div class="custom-control custom-checkbox">
-									<input type="checkbox" name="terms"
-										class="custom-control-input" id="exampleCheck1"> <label
-										class="custom-control-label" for="exampleCheck1">I
-										agree to the <a href="#">terms of service</a>.
-									</label>
-								</div>
+								<label for="province">Chọn tỉnh thành</label> <select
+									name="province" id="province" class="form-control">
+									<th:block th:each="province: ${provinces}">
+										<option th:value="${province.id}" th:text="${province.name}"></option>
+									</th:block>
+								</select>
 							</div>
 						</div>
 						<!-- /.card-body -->
@@ -48,5 +43,8 @@
 			</div>
 		</div>
 	</div>
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/room/main.js}"></script>
+	</th:block>
 </body>
 </html>

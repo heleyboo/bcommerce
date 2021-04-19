@@ -1,6 +1,9 @@
 package com.binh.core.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +60,18 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> getAll() {
 		return repo.findAll();
+	}
+
+	@Override
+	public Set<Category> findChildrenByCode(String code) {
+		Set<Category> ret = new HashSet<Category>();
+		
+		Optional<Category> parent = repo.findById(code);
+		
+		if (parent.isPresent()) {
+			ret = parent.get().getChildren();
+		}
+		return ret;
 	}
 
 }
