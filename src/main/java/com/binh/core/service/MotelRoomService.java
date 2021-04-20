@@ -12,4 +12,5 @@ import javassist.NotFoundException;
 public interface MotelRoomService {
 	public List<MotelRoom> getAll();
 	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException;
+	public List<MotelRoom> getMotelRooms(String userName);
 }

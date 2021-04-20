@@ -55,4 +55,9 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		
 		return repo.save(motelRoom);
 	}
+
+	@Override
+	public List<MotelRoom> getMotelRooms(String userName) {
+		return repo.findByUserName(userName);
+	}
 }
