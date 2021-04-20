@@ -29,6 +29,7 @@ public class District {
 	@Column(name = "name")
 	private String name;
 	
+	@JsonIgnore
 	@Column(name = "type")
 	private String type;
 	

@@ -39,12 +39,15 @@ public class Category {
 	@Column(name = "name", nullable = false)
 	private String name;
 
+	@JsonIgnore
 	@Column(name = "slug")
 	private String slug;
 
+	@JsonIgnore
 	@Column(name = "position")
 	private int position;
 
+	@JsonIgnore
 	@Column(name = "level")
 	private int level;
 	
@@ -53,24 +56,31 @@ public class Category {
     @JoinColumn(name = "parent_id", referencedColumnName = "code", nullable = true)
     private Category parent;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private Set<Category> children;
 
+	@JsonIgnore
 	@Column(name = "is_visible", insertable = false)
 	private Boolean isVisible;
 
+	@JsonIgnore
 	@Column(name = "is_enable", insertable = false)
 	private Boolean isEnable;
 
+	@JsonIgnore
 	@Column(name = "description")
 	private String description;
 	
+	@JsonIgnore
 	@Column(name = "meta_tag_title")
 	private String metaTagTitle;
 	
+	@JsonIgnore
 	@Column(name = "meta_tag_description")
 	private String metaTagDescription;
 	
+	@JsonIgnore
 	@Column(name = "meta_tag_keyword")
 	private String metaTagKeywords;
 }
