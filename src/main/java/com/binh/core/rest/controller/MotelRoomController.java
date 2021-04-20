@@ -29,10 +29,11 @@ public class MotelRoomController {
 	public MotelRoom createRoom(@Valid @RequestBody MotelRoomDTO room, KeycloakAuthenticationToken authentication)
 			throws NotFoundException {
 		return motelroomservice.save(room, authentication);
+
 	}
 
 	@GetMapping
 	public List<MotelRoom> getAll() {
-		return null;
+		return motelroomservice.getAll();
 	}
 }
