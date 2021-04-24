@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,13 +40,15 @@ public class MotelRoomController {
 	}
 
 	@GetMapping
-	public List<MotelRoom> getAll() {
-		return motelroomservice.getAll();
+	public Page<MotelRoom> getAll(@RequestParam(name = "pageNum", required = false, defaultValue = "0") Integer pageNum,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
+		return motelroomservice.getAll(pageNum, pageSize);
 	}
-	
+
 	@GetMapping("/by-user")
 	// @PathVariable: Tìm resource theo ID, VD: api/v1/rooms/12
-	// @RequestParam: Truy vấn danh sách resource theo thuộc tính: vd: /api/v1/rooms?username=binh
+	// @RequestParam: Truy vấn danh sách resource theo thuộc tính: vd:
+	// /api/v1/rooms?username=binh
 	public List<MotelRoom> getMotelRooms(@RequestParam(name = "userName", required = true) String userName) {
 		return motelroomservice.getMotelRooms(userName);
 	}

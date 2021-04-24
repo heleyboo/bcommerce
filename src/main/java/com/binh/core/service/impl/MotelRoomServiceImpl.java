@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.binh.core.dto.request.MotelRoomDTO;
@@ -34,8 +37,11 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 	@Autowired
 	private KeyCloakService keyCloakService;
 
-	public List<MotelRoom> getAll() {
-		return repo.findAll();
+	public Page<MotelRoom> getAll(Integer pageNum, Integer pageSize) {
+		
+		Pageable pageAble = PageRequest.of(pageNum, pageSize);
+		
+		return repo.findAll(pageAble);
 	}
 
 	@Override
