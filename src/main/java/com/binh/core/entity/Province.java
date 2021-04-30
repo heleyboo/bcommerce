@@ -22,14 +22,20 @@ import lombok.Setter;
 @Table(name = "province")
 public class Province {
 	@Id
-	@Column(name = "id")
-	private String id;
+	@Column(name = "code")
+	private String code;
 
 	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "slug")
+	private String slug;
 
 	@Column(name = "type")
 	private String type;
+	
+	@Column(name = "name_with_type")
+	private String nameWithType;
 
 	@OneToMany(mappedBy = "province", cascade = CascadeType.ALL)
 	private List<District> districts;

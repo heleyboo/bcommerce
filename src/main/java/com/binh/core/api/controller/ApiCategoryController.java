@@ -22,7 +22,6 @@ public class ApiCategoryController {
 	private CategoryService service;
 	
 	@GetMapping
-//	@RolesAllowed("user")
 	public List<Category> getAll() {
 		return service.getAll();
 	}

@@ -11,12 +11,14 @@ import org.springframework.stereotype.Service;
 
 import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.entity.Ward;
 import com.binh.core.repository.MotelRoomRepository;
 import com.binh.core.service.CategoryService;
 import com.binh.core.service.DistrictService;
 import com.binh.core.service.KeyCloakService;
 import com.binh.core.service.MotelRoomService;
 import com.binh.core.service.ProvinceService;
+import com.binh.core.service.WardService;
 
 import javassist.NotFoundException;
 
@@ -36,6 +38,9 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 	
 	@Autowired
 	private KeyCloakService keyCloakService;
+	
+	@Autowired
+	private WardService wardService;
 
 	public Page<MotelRoom> getAll(Integer pageNum, Integer pageSize) {
 		
@@ -51,9 +56,18 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		motelRoom.setDescription(room.getDescription());
 		motelRoom.setPrice(room.getPrice());
 		motelRoom.setArea(room.getArea());
+		motelRoom.setDepositAmount(room.getDepositAmount());
+		motelRoom.setBalconyDirection(room.getBalconyDirection());
+		motelRoom.setDoorDirection(room.getDoorDirection());
+		motelRoom.setNumOfBedrooms(room.getNumOfBedrooms());
+		motelRoom.setNumOfToilets(room.getNumOfToilets());
+		
+		String wardCode = room.getWard();
+		Ward ward = wardService.getWardByCode(wardCode).orElseThrow(() -> new NotFoundException("Ward not found"));
+		
+		motelRoom.setWard(ward);
 		motelRoom.setAddress(room.getAddress());
 		motelRoom.setCategory(categoryService.getCategoryByCode(room.getCategory()));
-		motelRoom.setDistrict(districtService.getDistrictById(room.getDistrict()));
 		motelRoom.setAddress(room.getAddress());
 		motelRoom.setPhoneNumber(room.getPhoneNumber());
 		motelRoom.setSlug(room.getSlug());

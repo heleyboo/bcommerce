@@ -1,6 +1,7 @@
 package com.binh.core.entity;
 
 import java.sql.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.binh.core.enums.RoomDirection;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,8 +42,27 @@ public class MotelRoom {
 	@Column(name ="price", nullable = false)
 	private double price;
 	
+	@Column(name = "deposit_amount", nullable = true)
+	private double depositAmount;
+	
 	@Column(name ="area", nullable = false)
 	private float area;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_type_id", referencedColumnName = "id", nullable = true)
+	private RoomType roomType;
+	
+	@Column(name = "num_of_bedrooms", nullable = false)
+	private int numOfBedrooms;
+	
+	@Column(name = "num_of_toilets", nullable = false)
+	private int numOfToilets;
+	
+	@Column(name = "door_direction")
+	private RoomDirection doorDirection;
+	
+	@Column(name = "balcony_direction")
+	private RoomDirection balconyDirection;
 	
 	@Column(name ="count_view")
 	private Long countView;
@@ -50,8 +73,8 @@ public class MotelRoom {
 	@Column(name ="latlng")
 	private String latlng;
 	
-	@Column(name ="images")
-	private String images;
+	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    private Set<RoomImage> images;
 	
 	@Column(name ="user_name", nullable = false)
 	private String userName;
@@ -61,8 +84,8 @@ public class MotelRoom {
 	private Category category;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "district_id", referencedColumnName = "id", nullable = false)
-	private District district;
+    @JoinColumn(name = "ward_id", referencedColumnName = "code", nullable = false)
+	private Ward ward;
 	
 	@Column(name ="utilities")
 	private String utilities;
