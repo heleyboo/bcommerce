@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -34,7 +35,8 @@ public class RoomImage {
     @JoinColumn(name = "room_id", referencedColumnName = "id", nullable = true)
 	private MotelRoom room;
 	
-	@Column(name = "url", nullable = false)
-	private String url;
+	@Lob
+	@Column(name = "image", nullable = false, columnDefinition="BLOB")
+	private byte[] image;
 
 }

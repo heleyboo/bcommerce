@@ -1,6 +1,9 @@
 package com.binh.core.service.impl;
 
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.entity.RoomImage;
 import com.binh.core.entity.Ward;
 import com.binh.core.repository.MotelRoomRepository;
+import com.binh.core.repository.RoomImageRepository;
 import com.binh.core.service.CategoryService;
 import com.binh.core.service.DistrictService;
 import com.binh.core.service.KeyCloakService;
@@ -26,6 +31,9 @@ import javassist.NotFoundException;
 public class MotelRoomServiceImpl implements MotelRoomService {
 	@Autowired
 	private MotelRoomRepository repo;
+	
+	@Autowired
+	private RoomImageRepository roomImageRepo;
 
 	@Autowired
 	private CategoryService categoryService;
@@ -65,7 +73,7 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		String wardCode = room.getWard();
 		Ward ward = wardService.getWardByCode(wardCode).orElseThrow(() -> new NotFoundException("Ward not found"));
 		
-		motelRoom.setWard(ward);
+		motelRoom.setWardCode(ward.getCode());
 		motelRoom.setAddress(room.getAddress());
 		motelRoom.setCategory(categoryService.getCategoryByCode(room.getCategory()));
 		motelRoom.setAddress(room.getAddress());
@@ -73,11 +81,37 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		motelRoom.setSlug(room.getSlug());
 		motelRoom.setUserName(keyCloakService.getAuthUsername(authentication));
 		
-		return repo.save(motelRoom);
+		List<String> images = room.getImages();
+		
+		MotelRoom saved = repo.save(motelRoom);
+		
+		saveRoomImages(saved, images);
+		
+		return saved;
 	}
+	
+	private void saveRoomImages(MotelRoom motelRoom, List<String> images) {
+		List<RoomImage> roomImages = images.stream().map(it -> {
+			RoomImage roomImage = new RoomImage();
+			roomImage.setRoom(motelRoom);
+			byte[] imageByte = Base64.getMimeDecoder().decode(it);
+			roomImage.setImage(imageByte);
+			return roomImage;
+			
+		}).collect(Collectors.toList());
+		
+		roomImageRepo.saveAll(roomImages);
+	}
+	
 
 	@Override
 	public List<MotelRoom> getMotelRooms(String userName) {
 		return repo.findByUserName(userName);
 	}
+
+	@Override
+	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException {
+		return repo.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
+	}
+	
 }

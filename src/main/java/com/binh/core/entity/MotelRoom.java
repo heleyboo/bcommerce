@@ -1,6 +1,7 @@
 package com.binh.core.entity;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -74,7 +75,7 @@ public class MotelRoom {
 	private String latlng;
 	
 	@OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
-    private Set<RoomImage> images;
+    private List<RoomImage> images;
 	
 	@Column(name ="user_name", nullable = false)
 	private String userName;
@@ -83,9 +84,12 @@ public class MotelRoom {
     @JoinColumn(name = "category_id", referencedColumnName = "code", nullable = true)
 	private Category category;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ward_id", referencedColumnName = "code", nullable = false)
-	private Ward ward;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "ward_id", referencedColumnName = "code", nullable = false)
+//	private Ward ward;
+//	
+	@Column(name = "ward_code", nullable = false)
+	private String wardCode;
 	
 	@Column(name ="utilities")
 	private String utilities;

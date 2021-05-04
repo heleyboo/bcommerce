@@ -1,8 +1,11 @@
 package com.binh.core.dto.request;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.binh.core.entity.RoomType;
 import com.binh.core.enums.RoomDirection;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +20,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MotelRoomDTO {
+	
+//	@NotEmpty
+//	private RoomType roomType;
 	
  	@NotEmpty(message = "Tiêu đề bắt buộc nhập")
 	private String title;
@@ -58,4 +64,6 @@ public class MotelRoomDTO {
 	private String phoneNumber;
 
 	private String slug;
+	
+	private List<String> images;
 }

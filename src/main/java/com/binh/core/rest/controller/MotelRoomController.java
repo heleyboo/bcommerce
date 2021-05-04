@@ -44,6 +44,11 @@ public class MotelRoomController {
 			@RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize) {
 		return motelroomservice.getAll(pageNum, pageSize);
 	}
+	
+	@GetMapping("/{id}")
+	public MotelRoom getById(@PathVariable("id") Integer roomId) throws NotFoundException {
+		return motelroomservice.getMotelRoomById(roomId);
+	}
 
 	@GetMapping("/by-user")
 	// @PathVariable: Tìm resource theo ID, VD: api/v1/rooms/12
