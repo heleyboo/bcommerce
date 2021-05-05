@@ -1,5 +1,7 @@
 package com.binh.core.rest.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -7,7 +9,6 @@ import javax.validation.Valid;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.binh.core.dto.request.CategoryRequest;
 import com.binh.core.dto.request.MotelRoomDTO;
-import com.binh.core.entity.Category;
-import com.binh.core.entity.District;
 import com.binh.core.entity.MotelRoom;
 import com.binh.core.service.MotelRoomService;
 
@@ -34,7 +32,7 @@ public class MotelRoomController {
 
 	@PostMapping
 	public MotelRoom createRoom(@Valid @RequestBody MotelRoomDTO room, KeycloakAuthenticationToken authentication)
-			throws NotFoundException {
+			throws NotFoundException, FileNotFoundException, IOException {
 		return motelroomservice.save(room, authentication);
 
 	}

@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,92 +28,83 @@ import com.binh.core.repository.DistrictRepository;
 import com.binh.core.repository.ProvinceRepository;
 import com.binh.core.repository.WardRepository;
 import com.binh.core.service.ProvinceService;
+import com.binh.core.service.StorageService;
 
 @RestController
 @RequestMapping("/api/v1/provinces")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class ApiProvinceController {
-	
+
 	@Autowired
 	private ProvinceService provinceService;
-	
+
 	@Autowired
 	private ProvinceRepository provinceRepo;
-	
+
 	@Autowired
 	private DistrictRepository districtRepo;
-	
+
 	@Autowired
 	private WardRepository wardRepo;
 	
+	@Autowired
+	private StorageService storageService;
+
 	@GetMapping("/{id}/districts")
 	public List<District> getDistricts(@PathVariable("id") String provinceId) {
 		return provinceService.getDistricts(provinceId);
 	}
+
 	@GetMapping
 	public List<Province> getProvinces() {
 		return provinceService.getProvinces();
 	}
-	
+
 	@GetMapping("/data")
 	public void loadData() throws IOException {
 		List<District> districts = districtRepo.findAll();
 		List<Ward> listWard = new ArrayList<Ward>();
-		
+
 		for (District district : districts) {
 			listWard.addAll(getWards(district.getCode()));
 		}
-		
-		List<Ward> tmp = listWard.stream().filter(it -> StringUtils.hasText(it.getCode()))
-		.collect(Collectors.toList());
-		
+
+		List<Ward> tmp = listWard.stream().filter(it -> StringUtils.hasText(it.getCode())).collect(Collectors.toList());
+
 		wardRepo.saveAll(tmp);
-//		
-//		Ward w = new Ward();
-//		w.setCode("00001");
-//		w.setName("00001");
-//		w.setNameWithType("00001");
-//		w.setPath("00001");
-//		w.setPathWithType("00001");
-//		
-//		wardRepo.save(w);
 	}
-	
+
 	public List<Ward> getWards(String districtCode) throws IOException {
 		String filePath = String.format("dist/xa-phuong/%s.json", districtCode);
 		ClassPathResource res = new ClassPathResource(filePath);
 		List<Ward> retList = new ArrayList<Ward>();
 		File file = res.getFile();
-		//JSON parser object to parse read file
-        JSONParser jsonParser = new JSONParser();
-         
-        try (FileReader reader = new FileReader(file.getPath()))
-        {
-            //Read JSON file
-            Object obj = jsonParser.parse(reader);
-            
-            
-            JSONObject wards = (JSONObject) obj;
-            Set keys = wards.keySet();
-            
-            retList = (List<Ward>) keys.stream().map(code -> {
-            	JSONObject ward = (JSONObject) wards.get(code);
-            	return json2Ward(ward);
-            }).collect(Collectors.toList());
-            
-            
- 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        
-        return retList;
+		// JSON parser object to parse read file
+		JSONParser jsonParser = new JSONParser();
+
+		try (FileReader reader = new FileReader(file.getPath())) {
+			// Read JSON file
+			Object obj = jsonParser.parse(reader);
+
+			JSONObject wards = (JSONObject) obj;
+			Set keys = wards.keySet();
+
+			retList = (List<Ward>) keys.stream().map(code -> {
+				JSONObject ward = (JSONObject) wards.get(code);
+				return json2Ward(ward);
+			}).collect(Collectors.toList());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return retList;
 	}
-	
+
 	public Ward json2Ward(JSONObject obj) {
 		Ward ward = new Ward();
 		ward.setCode((String) obj.get("code"));
@@ -130,6 +119,5 @@ public class ApiProvinceController {
 		ward.setDistrict(parent);
 		return ward;
 	}
-	
 
 }

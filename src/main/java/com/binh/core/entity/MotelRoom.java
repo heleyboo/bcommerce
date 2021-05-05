@@ -2,7 +2,6 @@ package com.binh.core.entity;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

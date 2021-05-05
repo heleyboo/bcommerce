@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "weka-210614",
+  "private_key_id": "889bc54182efdf703c837e0dbc31a28bca631507",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCb+etp+a70hKz2\nnxfzQOyDNa/KnNluht2ydEh7BggftZ+zuLFV1Hasm0tKNEqQzwv1x6SFihkRp4ob\nfPnCsqiVryLxcqsUxlk8tMN8LRx17hHUHyAHotmVj6T4xwO6Kpt0iwmDHf7xiZvq\nAl84aXiG1ERCaX2VBMTLhl443nsgb6iTLOJw+pD7cFHI/922zmeWX9e6y8PbTZ5D\n86AkAjIyXGH6JW3OkmmJ/aU6wQolDoxCN14/8wfK//atn4hda/o42f81X8Zl+eF9\nt3kGG+cmEw6Uqtm96dkMMB0Tkaf9n1cBXZSastRVEDmnYWUEPyOow8/AjnTFje5k\nNYABZQmTAgMBAAECggEAGygb01M8IWmaPcQ8ZMd4hm3KAiJl/wbvQZtaZUULFA5I\n1H9DLPj1gp71MGHDW8wYvn24iOGe9MJxWtDbIYl+rbUVBenbnJ3eOqIUaSHnkybU\nptSWfI3fiVk9tWzdGsRBVbzBdrk5wq8dXNR15LoEWKFLky6PxWrTosXt0MP3txFE\nC117g5V20VmmLMxNPXHwduJ2OAVBPiLXDuj6/stbUZ8GW3Z+lTiY7Db/dOCIv+mP\n2clmEQrbkM3Q7czbbpLtt0L0GYjsfMw6Q/TnXRZ9NxsLfYTvtBHh9QUXecHzjkUK\nTvrc/venmNrupEnYxB2Zurs59I4f/qSb8wktogA7jQKBgQDWmg9EZmve9VgZcB5D\nFa5RCrAUKd+Hbo8wFLmzu02DiTXfRlBISbDfEGB4g/roWpLnj+Rwg52n/dHAF96P\nNyCVHdxHQIj+iQBPdKlbG+55ufTS4QLMlOEb8vtj7SBVOom5QjJ9ZadrYVFUqqfe\nyvbCTxjcIYkg7rIla2/cEuqSZwKBgQC6EK79oEfyhMy5YtIZqiyNkd6EY2EedBQS\nz3WmGe1Lr+gyTiLLcm9dEeKka9b0rKXlCKCrvjhDA11mqV4BUVFSl4bQTJVnOoan\njt4kgs8uL5H0B7wryNnwCldi2wFI4q7CTg5XEtabTA/xVT5/hxHMWUxwIbpkUsdP\ng5mSw6+L9QKBgHZVmVmUSKM3Eo9kXauMRwT1KcbUmCer9VUD+Kp8++8uOACYWyih\nSeCWvTt3O2Hon90EYWkRilvaAFE2WEkMkvDm+FJp6aDBluQ5ZjGRI10IB1JJNSvu\nZHru72RYm12j29HGCOVQqpLxpNFVESAvNwZKa2DnNSBtvtoXdiUaYTK9AoGAR3IS\nj6cVGWWu6tysSliS5QWHCRTT/QqbjqGEznQUL0Trhy2DpNVbN8SfX31dO/Rzex+1\n+lx/ZBQNsFcGlsDv1iQDC0bs84eAnyR33lMwVM7FX4v80F8+eDKwXXA07RTGACxS\ny1Kbf2RUltmhtvxZdDsx47i/xrgWekzREo77gGUCgYAep7oGfoEkq5z2XvzoJV5T\ngoFUKn4v809FWRchDyBjL5PJHymssDUswjzwKoYd/SIDKZYlvzXlH6vzO3KtM66e\nUmjC33R8Gf2EbtedXDOS3SyTwuben0fAQDn9v+lNLcKSwFFqAnYLcTy5iidmUON3\nGL4VW7b+FMhmMrXvxmF3Lg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "motel-735@weka-210614.iam.gserviceaccount.com",
+  "client_id": "111612390220943793267",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/motel-735%40weka-210614.iam.gserviceaccount.com"
+}

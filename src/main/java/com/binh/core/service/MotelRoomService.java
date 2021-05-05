@@ -1,5 +1,7 @@
 package com.binh.core.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +15,7 @@ import javassist.NotFoundException;
 
 public interface MotelRoomService {
 	public Page<MotelRoom> getAll(Integer pageNum, Integer pageSize);
-	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException;
+	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException, FileNotFoundException, IOException;
 	public List<MotelRoom> getMotelRooms(String userName);
 	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException;
 }
