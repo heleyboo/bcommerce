@@ -90,6 +90,12 @@ public class MotelRoom {
 	@Column(name = "ward_code", nullable = false)
 	private String wardCode;
 	
+	@Column(name = "district_code", nullable = false)
+	private String districtCode;
+	
+	@Column(name = "province_code", nullable = false)
+	private String provinceCode;
+	
 	@Column(name ="utilities")
 	private String utilities;
 	

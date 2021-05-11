@@ -14,9 +14,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.binh.core.dto.request.MotelRoomDTO;
+import com.binh.core.entity.District;
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.entity.Province;
 import com.binh.core.entity.RoomImage;
 import com.binh.core.entity.Ward;
 import com.binh.core.repository.MotelRoomRepository;
@@ -28,6 +31,8 @@ import com.binh.core.service.MotelRoomService;
 import com.binh.core.service.ProvinceService;
 import com.binh.core.service.StorageService;
 import com.binh.core.service.WardService;
+import com.binh.core.specifications.Filter;
+import com.binh.core.specifications.MotelRoomSpecification;
 import com.binh.core.specifications.RoomSpecification;
 import com.binh.core.specifications.SearchCriteria;
 import com.binh.core.util.CustomStringUtils;
@@ -38,7 +43,7 @@ import javassist.NotFoundException;
 public class MotelRoomServiceImpl implements MotelRoomService {
 	@Autowired
 	private MotelRoomRepository repo;
-	
+
 	@Autowired
 	private RoomImageRepository roomImageRepo;
 
@@ -50,25 +55,26 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 
 	@Autowired
 	private DistrictService districtService;
-	
+
 	@Autowired
 	private KeyCloakService keyCloakService;
-	
+
 	@Autowired
 	private StorageService storageService;
-	
+
 	@Autowired
 	private WardService wardService;
 
 	public Page<MotelRoom> getAll(Integer pageNum, Integer pageSize) {
-		
+
 		Pageable pageAble = PageRequest.of(pageNum, pageSize);
-		
+
 		return repo.findAll(pageAble);
 	}
 
 	@Override
-	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException, FileNotFoundException, IOException {
+	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication)
+			throws NotFoundException, FileNotFoundException, IOException {
 		MotelRoom motelRoom = new MotelRoom();
 		motelRoom.setTitle(room.getTitle());
 		motelRoom.setDescription(room.getDescription());
@@ -79,38 +85,44 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		motelRoom.setDoorDirection(room.getDoorDirection());
 		motelRoom.setNumOfBedrooms(room.getNumOfBedrooms());
 		motelRoom.setNumOfToilets(room.getNumOfToilets());
-		
+
 		String wardCode = room.getWard();
 		Ward ward = wardService.getWardByCode(wardCode).orElseThrow(() -> new NotFoundException("Ward not found"));
+
+		District district = ward.getDistrict();
+		
+		Province province = district.getProvince();
 		
 		motelRoom.setWardCode(ward.getCode());
+		motelRoom.setDistrictCode(district.getCode());
+		motelRoom.setProvinceCode(province.getCode());
 		motelRoom.setAddress(room.getAddress());
 		motelRoom.setCategory(categoryService.getCategoryByCode(room.getCategory()));
 		motelRoom.setAddress(room.getAddress());
 		motelRoom.setPhoneNumber(room.getPhoneNumber());
 		motelRoom.setSlug(room.getSlug());
 		motelRoom.setUserName(keyCloakService.getAuthUsername(authentication));
-		
+
 		List<String> images = room.getImages();
-		
+
 		MotelRoom saved = repo.save(motelRoom);
-		
+
 		saveRoomImages(saved, images);
-		
+
 		return saved;
 	}
-	
+
 	private void saveRoomImages(MotelRoom motelRoom, List<String> images) throws FileNotFoundException, IOException {
 		List<RoomImage> roomImages = new ArrayList<RoomImage>();
-		for (int i = 0; i<images.size(); i++) {
+		for (int i = 0; i < images.size(); i++) {
 			String base64 = images.get(i);
 			String header = CustomStringUtils.findBase64ImageHeader(base64);
 			String imageType = CustomStringUtils.findBase64ImageType(base64);
-			
+
 			String base64Image = base64.replace(header, "");
 			byte[] imageByte = Base64.getMimeDecoder().decode(base64Image);
 			UUID uuid = UUID.randomUUID();
-	        String uuidAsString = uuid.toString();
+			String uuidAsString = uuid.toString();
 			String fileName = String.format("%s_%s", motelRoom.getSlug(), uuidAsString);
 			String url = storageService.storeFile(fileName, imageType, imageByte);
 			RoomImage roomImage = new RoomImage();
@@ -118,10 +130,9 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 			roomImage.setUrl(url);
 			roomImages.add(roomImage);
 		}
-		
+
 		roomImageRepo.saveAll(roomImages);
 	}
-	
 
 	@Override
 	public List<MotelRoom> getMotelRooms(String userName) {
@@ -134,10 +145,52 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 	}
 
 	@Override
-	public Page<MotelRoom> searchRooms(Integer pageNum, Integer pageSize, Specification<MotelRoom> spec) {
+	public Page<MotelRoom> searchRooms(Filter filter) {
+		Pageable pageAble = PageRequest.of(filter.getPageNum(), filter.getPageSize());
+
+		double minPrice = 0;
+		if (filter.getMinPrice() > minPrice) {
+			minPrice = filter.getMinPrice();
+		}
+
+		Specification<MotelRoom> spec = MotelRoomSpecification.priceGreaterOrEqual(minPrice);
+
+		double maxPrice = Double.MAX_VALUE;
+
+		if (filter.getMaxPrice() < maxPrice && filter.getMaxPrice() > minPrice) {
+			maxPrice = filter.getMaxPrice();
+		}
 		
-		Pageable pageAble = PageRequest.of(pageNum, pageSize);
+		spec = Specification.where(spec).and(MotelRoomSpecification.priceLessThanOrEqual(maxPrice));
+		
+		double minArea = 0;
+		
+		if (filter.getMinArea() > minArea) {
+			minArea = filter.getMinArea();
+		}
+		
+		spec = spec.and(MotelRoomSpecification.areaGreaterOrEqual(minArea));
+		
+		double maxArea = Double.MAX_VALUE;
+		
+		if (filter.getMaxArea() < maxArea && filter.getMaxArea() > minArea) {
+			maxArea = filter.getMaxArea();
+		}
+		
+		if (StringUtils.hasText(filter.getWardCode())) {
+			
+		} else if (StringUtils.hasText(filter.getDistrictCode())) {
+			
+		} else {
+			
+		}
+		
+//		spec = spec.and(MotelRoomSpecification.wardCodeEqual("082181"));
+		
+		
+		
+
 		return repo.findAll(spec, pageAble);
 	}
-	
+
 }

@@ -10,13 +10,14 @@ import org.springframework.data.jpa.domain.Specification;
 
 import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.specifications.Filter;
 import com.binh.core.specifications.SearchCriteria;
 
 import javassist.NotFoundException;
 
 public interface MotelRoomService {
 	public Page<MotelRoom> getAll(Integer pageNum, Integer pageSize);
-	public Page<MotelRoom> searchRooms(Integer pageNum, Integer pageSize, Specification<MotelRoom> spec);
+	public Page<MotelRoom> searchRooms(Filter filter);
 	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException, FileNotFoundException, IOException;
 	public List<MotelRoom> getMotelRooms(String userName);
 	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException;

@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
 import com.binh.core.service.MotelRoomService;
+import com.binh.core.specifications.Filter;
+import com.binh.core.specifications.MotelRoomSpecification;
 import com.binh.core.specifications.RoomSpecificationsBuilder;
 import com.binh.core.specifications.SearchCriteria;
 import com.binh.core.specifications.SearchOperation;
@@ -46,19 +48,28 @@ public class MotelRoomController {
 	}
 
 	@GetMapping
-	public Page<MotelRoom> search(@RequestParam(name = "pageNum", required = false, defaultValue = "0") Integer pageNum,
-			@RequestParam(name = "pageSize", required = false, defaultValue = "10") Integer pageSize, @RequestParam(value = "search", required = false) String search) {
-		RoomSpecificationsBuilder builder = new RoomSpecificationsBuilder();
-        String operationSetExper = Joiner.on("|")
-            .join(SearchOperation.SIMPLE_OPERATION_SET);
-        Pattern pattern = Pattern.compile("(\\w+?)(" + operationSetExper + ")(\\p{Punct}?)(\\w+?)(\\p{Punct}?),");
-        Matcher matcher = pattern.matcher(search + ",");
-        while (matcher.find()) {
-            builder.with(matcher.group(1), matcher.group(2), matcher.group(4), matcher.group(3), matcher.group(5));
-        }
-
-        Specification<MotelRoom> spec = builder.build();
-		return motelroomservice.searchRooms(pageNum, pageSize, spec);
+	public Page<MotelRoom> search(
+			@RequestParam(name = "pageNum", required = false, defaultValue = "0") int pageNum,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(value = "minPrice", required = false, defaultValue = "0") double minPrice,
+			@RequestParam(value = "maxPrice", required = false, defaultValue = "0") double maxPrice,
+			@RequestParam(value = "minArea", required = false, defaultValue = "0") double minArea,
+			@RequestParam(value = "maxArea", required = false, defaultValue = "0") double maxArea,
+			@RequestParam(value = "numOfBedrooms", required = false, defaultValue = "0") int numOfBedrooms,
+			@RequestParam(value = "numOfToilets", required = false, defaultValue = "0") int numOfToilets
+			) {
+        Filter filter = Filter.builder()
+        		.pageNum(pageNum)
+        		.pageSize(pageSize)
+        		.minPrice(minPrice)
+        		.maxPrice(maxPrice)
+        		.minArea(minArea)
+        		.maxArea(maxArea)
+        		.numOfBedrooms(numOfBedrooms)
+        		.numOfToilets(numOfToilets)
+        		.build();
+        
+		return motelroomservice.searchRooms(filter);
 	}
 
 	@GetMapping("/{id}")
