@@ -2,20 +2,17 @@ package com.binh.core.service.impl;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.binh.core.dto.request.MotelRoomDTO;
@@ -31,6 +28,8 @@ import com.binh.core.service.MotelRoomService;
 import com.binh.core.service.ProvinceService;
 import com.binh.core.service.StorageService;
 import com.binh.core.service.WardService;
+import com.binh.core.specifications.RoomSpecification;
+import com.binh.core.specifications.SearchCriteria;
 import com.binh.core.util.CustomStringUtils;
 
 import javassist.NotFoundException;
@@ -132,6 +131,13 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 	@Override
 	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException {
 		return repo.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
+	}
+
+	@Override
+	public Page<MotelRoom> searchRooms(Integer pageNum, Integer pageSize, Specification<MotelRoom> spec) {
+		
+		Pageable pageAble = PageRequest.of(pageNum, pageSize);
+		return repo.findAll(spec, pageAble);
 	}
 	
 }
