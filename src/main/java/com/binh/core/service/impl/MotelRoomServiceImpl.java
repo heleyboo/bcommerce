@@ -22,6 +22,7 @@ import com.binh.core.entity.MotelRoom;
 import com.binh.core.entity.Province;
 import com.binh.core.entity.RoomImage;
 import com.binh.core.entity.Ward;
+import com.binh.core.enums.RoomDirection;
 import com.binh.core.repository.MotelRoomRepository;
 import com.binh.core.repository.RoomImageRepository;
 import com.binh.core.service.CategoryService;
@@ -177,18 +178,41 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 			maxArea = filter.getMaxArea();
 		}
 		
-		if (StringUtils.hasText(filter.getWardCode())) {
-			
-		} else if (StringUtils.hasText(filter.getDistrictCode())) {
-			
-		} else {
-			
+		int numOfBedrooms = 0;
+		if (filter.getNumOfBedrooms() > numOfBedrooms) {
+			numOfBedrooms = filter.getNumOfBedrooms();
+			spec = spec.and(MotelRoomSpecification.numOfBedroomsEqual(numOfBedrooms));
 		}
 		
-//		spec = spec.and(MotelRoomSpecification.wardCodeEqual("082181"));
+		int numOfToilets = 0;
+		if (filter.getNumOfToilets() > numOfToilets) {
+			numOfToilets = filter.getNumOfToilets();
+			spec = spec.and(MotelRoomSpecification.numOfToiletsEqual(numOfToilets));
+		}
+		
+		if (null != filter.getBalconyDirection()) {			
+			spec = spec.and(MotelRoomSpecification.balconyDirectionEqual(filter.getBalconyDirection()));
+		}
+		
+		if (null != filter.getDoorDirection()) {
+			spec = spec.and(MotelRoomSpecification.doorDirectionEqual(filter.getDoorDirection()));
+		}
 		
 		
+		String wardCode;
+		if (StringUtils.hasText(filter.getWardCode())) {
+			wardCode = filter.getWardCode();
 		
+		
+			spec = spec.and(MotelRoomSpecification.wardCodeEqual(wardCode));
+		}
+		
+		if (StringUtils.hasText(filter.getDistrictCode())) {
+			spec = spec.and(MotelRoomSpecification.districtCodeEqual(filter.getDistrictCode()));
+		}
+		if (StringUtils.hasText(filter.getProvinceCode())) {
+			spec = spec.and(MotelRoomSpecification.provinceCodeEqual(filter.getProvinceCode()));
+		}
 
 		return repo.findAll(spec, pageAble);
 	}

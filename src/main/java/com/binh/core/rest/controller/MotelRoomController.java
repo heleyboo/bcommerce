@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.binh.core.dto.request.MotelRoomDTO;
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.enums.RoomDirection;
 import com.binh.core.service.MotelRoomService;
 import com.binh.core.specifications.Filter;
 import com.binh.core.specifications.MotelRoomSpecification;
@@ -56,7 +57,13 @@ public class MotelRoomController {
 			@RequestParam(value = "minArea", required = false, defaultValue = "0") double minArea,
 			@RequestParam(value = "maxArea", required = false, defaultValue = "0") double maxArea,
 			@RequestParam(value = "numOfBedrooms", required = false, defaultValue = "0") int numOfBedrooms,
-			@RequestParam(value = "numOfToilets", required = false, defaultValue = "0") int numOfToilets
+			@RequestParam(value = "numOfToilets", required = false, defaultValue = "0") int numOfToilets,
+			@RequestParam(value = "districtCode", required = false) String districtCode,
+			@RequestParam(value = "provinceCode", required = false) String provinceCode,
+			@RequestParam(value = "wardCode", required = false) String wardCode,
+			@RequestParam(value = "doorDirection", required = false) String doorDirection,
+			@RequestParam(value = "balconyDirection", required = false) String balconyDirection
+			
 			) {
         Filter filter = Filter.builder()
         		.pageNum(pageNum)
@@ -67,6 +74,11 @@ public class MotelRoomController {
         		.maxArea(maxArea)
         		.numOfBedrooms(numOfBedrooms)
         		.numOfToilets(numOfToilets)
+        		.districtCode(districtCode)
+        		.provinceCode(provinceCode)
+        		.wardCode(wardCode)
+        		.balconyDirection(balconyDirection)
+        		.doorDirection(doorDirection)
         		.build();
         
 		return motelroomservice.searchRooms(filter);

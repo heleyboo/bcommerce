@@ -3,6 +3,7 @@ package com.binh.core.specifications;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.binh.core.entity.MotelRoom;
+import com.binh.core.enums.RoomDirection;
 
 public final class MotelRoomSpecification {
 	
@@ -30,6 +31,39 @@ public final class MotelRoomSpecification {
 		return (root, query, criteriaBuilder)
 				-> criteriaBuilder.lessThanOrEqualTo(root.get("area"), area);
 	}
+	
+	public static Specification<MotelRoom> numOfBedroomsEqual(int numOfBedrooms) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("numOfBedrooms"), numOfBedrooms);
+	}
+	
+	public static Specification<MotelRoom> numOfToiletsEqual(int numOfToilets) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("numOfToilets"), numOfToilets);
+	}
+	
+	public static Specification<MotelRoom> districtCodeEqual(String districtCode) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("districtCode"), districtCode);
+	}
+	
+	public static Specification<MotelRoom> provinceCodeEqual(String provinceCode) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("provinceCode"), provinceCode);
+	}
+	
+	public static Specification<MotelRoom> doorDirectionEqual(String doorDirection) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("doorDirection"), RoomDirection.valueOf(doorDirection));
+	}
+	
+	public static Specification<MotelRoom> balconyDirectionEqual(String balconyDirection) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.get("balconyDirection"),  RoomDirection.valueOf(balconyDirection));
+	}
+	
+	
+	
 	
 	
 

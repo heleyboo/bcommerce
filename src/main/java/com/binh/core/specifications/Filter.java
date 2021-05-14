@@ -1,5 +1,7 @@
 package com.binh.core.specifications;
 
+import com.binh.core.enums.RoomDirection;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +21,6 @@ public class Filter {
 	private String wardCode;
 	private String districtCode;
 	private String provinceCode;
+	private String doorDirection;
+	private String balconyDirection;
 }
