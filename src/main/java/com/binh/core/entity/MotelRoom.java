@@ -82,7 +82,7 @@ public class MotelRoom {
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "code", nullable = true)
 	private Category category;
-	
+	// wardCode = 0?, districtCode = 0?
 //	@ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "ward_id", referencedColumnName = "code", nullable = false)
 //	private Ward ward;

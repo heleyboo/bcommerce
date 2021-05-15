@@ -153,16 +153,16 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		if (filter.getMinPrice() > minPrice) {
 			minPrice = filter.getMinPrice();
 		}
-
 		Specification<MotelRoom> spec = MotelRoomSpecification.priceGreaterOrEqual(minPrice);
+
 
 		double maxPrice = Double.MAX_VALUE;
 
 		if (filter.getMaxPrice() < maxPrice && filter.getMaxPrice() > minPrice) {
 			maxPrice = filter.getMaxPrice();
 		}
-		
 		spec = Specification.where(spec).and(MotelRoomSpecification.priceLessThanOrEqual(maxPrice));
+		
 		
 		double minArea = 0;
 		
@@ -190,12 +190,16 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 			spec = spec.and(MotelRoomSpecification.numOfToiletsEqual(numOfToilets));
 		}
 		
-		if (null != filter.getBalconyDirection()) {			
+		if (null != filter.getBalconyDirection() && StringUtils.hasText(filter.getBalconyDirection())) {			
 			spec = spec.and(MotelRoomSpecification.balconyDirectionEqual(filter.getBalconyDirection()));
 		}
 		
-		if (null != filter.getDoorDirection()) {
+		if (null != filter.getDoorDirection() && StringUtils.hasText(filter.getDoorDirection())) {
 			spec = spec.and(MotelRoomSpecification.doorDirectionEqual(filter.getDoorDirection()));
+		}
+		
+		if (StringUtils.hasText(filter.getCategory())) {
+			spec = spec.and(MotelRoomSpecification.categoryEqual(filter.getCategory()));
 		}
 		
 		

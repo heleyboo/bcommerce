@@ -23,4 +23,5 @@ public class Filter {
 	private String provinceCode;
 	private String doorDirection;
 	private String balconyDirection;
+	private String category;
 }

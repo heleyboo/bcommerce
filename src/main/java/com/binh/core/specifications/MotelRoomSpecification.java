@@ -2,6 +2,7 @@ package com.binh.core.specifications;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import com.binh.core.entity.Category;
 import com.binh.core.entity.MotelRoom;
 import com.binh.core.enums.RoomDirection;
 
@@ -60,6 +61,11 @@ public final class MotelRoomSpecification {
 	public static Specification<MotelRoom> balconyDirectionEqual(String balconyDirection) {
 		return (root, query, criteriaBuilder)
 				-> criteriaBuilder.equal(root.get("balconyDirection"),  RoomDirection.valueOf(balconyDirection));
+	}
+	
+	public static Specification<MotelRoom> categoryEqual(String categoryCode) {
+		return (root, query, criteriaBuilder)
+				-> criteriaBuilder.equal(root.join("category").get("code"), categoryCode);
 	}
 	
 	

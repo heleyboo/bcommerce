@@ -62,7 +62,8 @@ public class MotelRoomController {
 			@RequestParam(value = "provinceCode", required = false) String provinceCode,
 			@RequestParam(value = "wardCode", required = false) String wardCode,
 			@RequestParam(value = "doorDirection", required = false) String doorDirection,
-			@RequestParam(value = "balconyDirection", required = false) String balconyDirection
+			@RequestParam(value = "balconyDirection", required = false) String balconyDirection,
+			@RequestParam(value = "category", required = false) String category
 			
 			) {
         Filter filter = Filter.builder()
@@ -79,6 +80,7 @@ public class MotelRoomController {
         		.wardCode(wardCode)
         		.balconyDirection(balconyDirection)
         		.doorDirection(doorDirection)
+        		.category(category)
         		.build();
         
 		return motelroomservice.searchRooms(filter);
