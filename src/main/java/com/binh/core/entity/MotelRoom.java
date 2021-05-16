@@ -119,4 +119,10 @@ public class MotelRoom {
 	
 	@Column(name ="slug")
 	private String slug;
+	
+	@Column(name ="province")
+	private String province;
+	
+	@Column(name ="full_address")
+	private String fullAddress;
 }

@@ -87,7 +87,7 @@ public class MotelRoomController {
 	}
 
 	@GetMapping("/{id}")
-	public MotelRoom getById(@PathVariable("id") Integer roomId) throws NotFoundException {
+	public MotelRoom getById(@PathVariable("id") Integer roomId) throws Exception {
 		return motelroomservice.getMotelRoomById(roomId);
 	}
 

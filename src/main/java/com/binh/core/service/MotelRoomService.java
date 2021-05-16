@@ -20,6 +20,6 @@ public interface MotelRoomService {
 	public Page<MotelRoom> searchRooms(Filter filter);
 	public MotelRoom save(MotelRoomDTO room, KeycloakAuthenticationToken authentication) throws NotFoundException, FileNotFoundException, IOException;
 	public List<MotelRoom> getMotelRooms(String userName);
-	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException;
+	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException, Exception;
 	
 }

@@ -94,6 +94,16 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		
 		Province province = district.getProvince();
 		
+		String fullAddress = String.format(
+				"%s, %s, %s, %s",
+				room.getAddress(),
+				ward.getNameWithType(),
+				district.getNameWithType(),
+				province.getNameWithType());
+		
+		motelRoom.setFullAddress(fullAddress);
+		motelRoom.setProvince(province.getNameWithType());
+		
 		motelRoom.setWardCode(ward.getCode());
 		motelRoom.setDistrictCode(district.getCode());
 		motelRoom.setProvinceCode(province.getCode());
@@ -137,12 +147,14 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 
 	@Override
 	public List<MotelRoom> getMotelRooms(String userName) {
-		return repo.findByUserName(userName);
+		List<MotelRoom> rooms = repo.findByUserName(userName);
+		return rooms;
 	}
 
 	@Override
-	public MotelRoom getMotelRoomById(Integer id) throws NotFoundException {
-		return repo.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
+	public MotelRoom getMotelRoomById(Integer id) throws Exception {
+		MotelRoom room = repo.findById(id).orElseThrow(() -> new NotFoundException("Room not found"));
+		return room;
 	}
 
 	@Override
@@ -176,6 +188,7 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		
 		if (filter.getMaxArea() < maxArea && filter.getMaxArea() > minArea) {
 			maxArea = filter.getMaxArea();
+			spec = spec.and(MotelRoomSpecification.areaLessThanOrEqual(maxArea));
 		}
 		
 		int numOfBedrooms = 0;
@@ -217,7 +230,7 @@ public class MotelRoomServiceImpl implements MotelRoomService {
 		if (StringUtils.hasText(filter.getProvinceCode())) {
 			spec = spec.and(MotelRoomSpecification.provinceCodeEqual(filter.getProvinceCode()));
 		}
-
+		
 		return repo.findAll(spec, pageAble);
 	}
 
